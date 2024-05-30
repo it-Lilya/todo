@@ -8,9 +8,12 @@ function clickToggle(e) {
     parentli.className = '';
   }
 }
+// function deleteElem(e) {
+//   console.log(e.target)
+// }
 
-function Task({todoData}) {
- // console.log(todoData)
+function Task({todoData, onDeleted}) {
+  // console.log(onDeleted)
   if (todoData) {
     return (
       (todoData.map((e) => {
@@ -23,8 +26,7 @@ function Task({todoData}) {
                 <span className="created">{e.createdTime}</span>
               </label>
               <button className="icon icon-edit"></button>
-              <button className="icon icon-destroy"
-              ></button>
+              <button className="icon icon-destroy" id={e.id} onClick={onDeleted}></button>
           </div>
         </li>
         )
