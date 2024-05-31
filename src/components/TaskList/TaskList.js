@@ -1,13 +1,18 @@
 import React from "react";
 import Task from "../Task/Task";
 
-function Tasklist({todoData, onDeleted}) {
+function Tasklist({todoData, onDeleted, onDone, onEditing}) {
   return (
     <ul className="todo-list">
-      <Task 
-      todoData={todoData} 
-      onDeleted={onDeleted}
-      />
+      {todoData.map((e) => {
+        return (
+          <Task key={e.id}
+          e={e}
+          onDeleted={onDeleted}
+          onDone={() => onDone(e)}
+          onEditing={onEditing} />
+        )
+      })}
     </ul>
   )
 }

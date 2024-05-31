@@ -1,8 +1,8 @@
 import React from "react";
 
-function TasksFilter() {
+function TasksFilter({filters}) {
   return (
-    <ul className="filters">
+    <ul className="filters" onClick={(e) => filters(e.target)}>
     <li>
       <button className="selected">All</button>
     </li>
