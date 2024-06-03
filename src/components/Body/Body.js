@@ -127,9 +127,8 @@ export default function Body() {
   }
   
   function clearCompleted() {
-    let newTodo = todoData.filter(e => e.class !== 'completed');
-    setTodoData(newTodo);
-    setCopyTodo(newTodo);
+    setTodoData(todoData.filter(e => e.class !== 'completed'));
+    setCopyTodo(copyTodo.filter(e => e.class !== 'completed'));
   }
 
   function timerss() {
