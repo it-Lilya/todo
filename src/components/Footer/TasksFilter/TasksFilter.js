@@ -1,6 +1,7 @@
 import React from "react";
+import PropTypes from 'prop-types';
 
-function TasksFilter({filters}) {
+export default function TasksFilter({filters}) {
   return (
     <ul className="filters" onClick={(e) => filters(e.target)}>
     <li>
@@ -16,4 +17,6 @@ function TasksFilter({filters}) {
   )
 }
 
-export default TasksFilter;
+TasksFilter.propTypes = {
+  filters: PropTypes.func
+}

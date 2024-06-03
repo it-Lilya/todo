@@ -1,24 +1,23 @@
-import React, { useEffect, useState } from "react";
+import React, {useState } from "react";
+import { formatDistanceToNow } from "date-fns/formatDistanceToNow";
 import NewTaskForm from "../NewTaskForm/NewTaskForm";
-import { format } from "date-fns";
 import TaskList from "../TaskList/TaskList";
 import Footer from "../Footer/Footer";
 
 let id = 0;
 let newArr = [];
 
-function Body() {
+export default function Body() {
   const [todoData, setTodoData] = useState([
     createItem("completed", "Completed task", 'created 1 second ago'),
     createItem("editing", "Editing task", 'created 1 second ago'),
     createItem("view", "Active task", 'created 1 second ago')
   ]);
   const [done, setDone] = useState(1);
-  let count = 0;
   const [copyTodo, setCopyTodo] = useState(todoData);
-  const [timers, setTimers] = useState(0);
-  let t = Date.now(format(new Date(), "HH:mm:ss"))
-  
+
+  let count = 0;
+
 
   function createItem(classItem, text) {
     id++;
@@ -27,7 +26,7 @@ function Body() {
       span: text,
       time: 'created 1 second ago',
       id: id,
-      timeMs: Date.now(format(new Date(), "HH:mm:ss"))
+      timeMs: Date.now(new Date())
     };
   }
 
@@ -63,40 +62,51 @@ function Body() {
   }
 
   function onEditing(e, btn) {
-    e.class = "editing";
-    let indx = todoData.findIndex((s) => s.id === e.id);
-    let newArray = [...todoData.slice(0, indx), e, ...todoData.slice(indx + 1)];
-    setTodoData(newArray);
+    if (e.class !== 'completed') {
+      e.class = "editing";
+      let indx = todoData.findIndex((s) => s.id === e.id);
+      let newArray = [...todoData.slice(0, indx), e, ...todoData.slice(indx + 1)];
+      setTodoData(newArray);
 
-    const newForm = document.createElement("form");
-    const newInpText = document.createElement("input");
-    newInpText.className = "edit";
-    newInpText.type = "text";
-    newInpText.defaultValue = "";
-    newForm.appendChild(newInpText);
-    btn.closest("li").appendChild(newForm);
-
-    newInpText.addEventListener("keydown", (event) => {
-      if (event.key === "Enter" && event.target.value.trim()) {
-        event.preventDefault();
-        btn.closest("li").querySelector(".description").textContent = event.target.value.trim();
-        e.class = "view";
-        e.span = event.target.value.trim();
-        newArray = [...todoData.slice(0, indx), e, ...todoData.slice(indx + 1)];
-        setTodoData(newArray);
-        btn.closest("li").removeChild(newForm);
-      }
-    });
+      const newForm = document.createElement("form");
+      newForm.className = 'form-edit';
+      const newInpText = document.createElement("input");
+      newInpText.className = "edit";
+      newInpText.type = "text";
+      newInpText.defaultValue = e.span;
+      newForm.appendChild(newInpText);
+      btn.closest("li").appendChild(newForm);
+      newInpText.addEventListener("keydown", (event) => {
+        if (event.key === "Enter" && event.target.value.trim()) {
+          event.preventDefault();
+          btn.closest("li").querySelector(".description").textContent = event.target.value.trim();
+          e.class = "view";
+          e.span = event.target.value.trim();
+          newArray = [...todoData.slice(0, indx), e, ...todoData.slice(indx + 1)];
+          setTodoData(newArray);
+          btn.closest("li").removeChild(newForm);
+        }
+      });
+    }
   }
 
   function filters(e) {
     let newArray = [];
+    const formEdit = document.querySelector('.form-edit');
+      if (formEdit) {
+      copyTodo.forEach(t => {
+        if (t.id == formEdit.parentElement.id) {
+          t.class = 'view';
+          newArr = [...todoData.slice(0, t.id - 1), t, ...todoData.slice(t.id)];
+        }
+      })
+    }
     const btns = document.querySelector('.filters').querySelectorAll('button');
     btns.forEach(btn => btn.classList.remove('selected'));
     e.classList.add('selected');
-
     if (e.textContent === 'Completed') {
       copyTodo.forEach(r => {
+        
         if (r.class === 'completed') {
           newArray.push(r);
         }
@@ -117,32 +127,31 @@ function Body() {
   }
   
   function clearCompleted() {
-    setTodoData([]);
-    setCopyTodo([]);
-    setDone(0);
+    let newTodo = todoData.filter(e => e.class !== 'completed');
+    setTodoData(newTodo);
+    setCopyTodo(newTodo);
   }
 
   function timerss() {
-    let newTodo = todoData;
-    newTodo.forEach(t => {
-      let difference = Date.now(format(new Date(), "HH:mm:ss")) - t.timeMs;
-      if (difference < 60000) {
-        t.time = `created ${Math.ceil(difference / 1000)} second ago`;
-      } else if (difference >= 60000 && difference <= 3200000) {
-        t.time = `created ${Math.ceil(difference / 100000)} minute ago`;
+    copyTodo.forEach(t => {
+      let arr = formatDistanceToNow(t.timeMs, {includeSeconds: true}).split(' ');
+      let newString = ['created'];
+      if (arr[arr.length - 2] === 'a') {
+        newString.push('1');
       } else {
-        t.time = `created ${Math.ceil(difference / 10000)} hour ago`;
+        newString.push(arr[arr.length - 2]);
+      }
+      newString.push(arr[arr.length - 1]);
+      newString.push('ago');
+      if (document.getElementById(`${t.id}`)) {
+        document.getElementById(`${t.id}`).querySelector('.created').textContent = newString.join(' ')
       }
     })
-    setTimers(timers+ 1);
   }
-  useEffect(() => {
-    setCopyTodo(todoData);
-  }, [timers])
   setInterval(() => {
     timerss();
-  }, 10000)
-  
+  }, 1000)
+
 
   return (
     <div className="todoapp">
@@ -157,4 +166,3 @@ function Body() {
     </div>
   );
 }
-export default Body;

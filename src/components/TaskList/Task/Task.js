@@ -1,6 +1,7 @@
 import React from "react";
+import PropTypes from 'prop-types';
 
-function Task({e, onDeleted, onDone, onEditing}) {
+export default function Task({e = 1, onDeleted, onDone, onEditing}) {
   let check = 'false';
   function clickToggle(e) {
     const parentli = e.target.closest('li');
@@ -31,4 +32,9 @@ function Task({e, onDeleted, onDone, onEditing}) {
   )
 }
 
-export default Task;
+Task.propTypes = {
+  e: PropTypes.object,
+  onDeleted: PropTypes.func,
+  onDone: PropTypes.func,
+  onEditing: PropTypes.func,
+}

@@ -1,7 +1,8 @@
 import React from "react";
-import TasksFilter from "../TasksFilter/TasksFilter";
+import TasksFilter from "./TasksFilter/TasksFilter";
+import PropTypes from 'prop-types';
 
-function Footer({done, filters, clearCompleted}) {
+export default function Footer({done = 0, filters, clearCompleted}) {
   return (
     <footer className="footer">
       <span className="todo-count">{done} items left</span>
@@ -11,4 +12,8 @@ function Footer({done, filters, clearCompleted}) {
   )
 }
 
-export default Footer;
+Footer.protoTypes = {
+  done: PropTypes.number,
+  filters: PropTypes.func,
+  clearCompleted: PropTypes.func
+}

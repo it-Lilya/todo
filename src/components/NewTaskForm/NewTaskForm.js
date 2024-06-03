@@ -1,6 +1,7 @@
 import React from "react";
+import PropTypes from 'prop-types';
 
-function NewTaskForm({addItem}) {
+export default function NewTaskForm({addItem}) {
   function onChangeNewTodo(e) {
     e.preventDefault();
     addItem('view', e.target.querySelector('input').value);
@@ -20,4 +21,6 @@ function NewTaskForm({addItem}) {
   )
 }
 
-export default NewTaskForm;
+NewTaskForm.propTypes = {
+	addItem: PropTypes.func
+}
