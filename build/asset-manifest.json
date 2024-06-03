@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/it-Lilya/todo/static/css/main.48dc6328.css",
-    "main.js": "/it-Lilya/todo/static/js/main.a192a54e.js",
+    "main.js": "/it-Lilya/todo/static/js/main.888a5f81.js",
     "index.html": "/it-Lilya/todo/index.html",
     "main.48dc6328.css.map": "/it-Lilya/todo/static/css/main.48dc6328.css.map",
-    "main.a192a54e.js.map": "/it-Lilya/todo/static/js/main.a192a54e.js.map"
+    "main.888a5f81.js.map": "/it-Lilya/todo/static/js/main.888a5f81.js.map"
   },
   "entrypoints": [
     "static/css/main.48dc6328.css",
-    "static/js/main.a192a54e.js"
+    "static/js/main.888a5f81.js"
   ]
 }

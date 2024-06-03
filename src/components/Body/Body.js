@@ -95,7 +95,7 @@ export default function Body() {
     const formEdit = document.querySelector('.form-edit');
       if (formEdit) {
       copyTodo.forEach(t => {
-        if (t.id == formEdit.parentElement.id) {
+        if (t.id === +formEdit.parentElement.id) {
           t.class = 'view';
           newArr = [...todoData.slice(0, t.id - 1), t, ...todoData.slice(t.id)];
         }
