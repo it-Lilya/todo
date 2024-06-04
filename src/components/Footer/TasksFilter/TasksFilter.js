@@ -1,22 +1,22 @@
-import React from "react";
+import React from 'react';
 import PropTypes from 'prop-types';
 
-export default function TasksFilter({filters}) {
+export default function TasksFilter({ filters }) {
   return (
     <ul className="filters" onClick={(e) => filters(e.target)}>
-    <li>
-      <button className="selected">All</button>
-    </li>
-    <li>
-      <button>Active</button>
-    </li>
-    <li>
-      <button>Completed</button>
-    </li>
-  </ul>
-  )
+      <li>
+        <button className="selected">All</button>
+      </li>
+      <li>
+        <button>Active</button>
+      </li>
+      <li>
+        <button>Completed</button>
+      </li>
+    </ul>
+  );
 }
 
 TasksFilter.propTypes = {
-  filters: PropTypes.func
-}
+  filters: PropTypes.func,
+};

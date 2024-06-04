@@ -1,7 +1,7 @@
-import React from "react";
+import React from 'react';
 import PropTypes from 'prop-types';
 
-export default function Task({e = 1, onDeleted, onDone, onEditing}) {
+export default function Task({ e = 1, onDeleted, onDone, onEditing }) {
   let check = 'false';
   function clickToggle(e) {
     const parentli = e.target.closest('li');
@@ -20,7 +20,7 @@ export default function Task({e = 1, onDeleted, onDone, onEditing}) {
   return (
     <li id={e.id} className={e.class}>
       <div className="view">
-        <input className="toggle" type="checkbox" onClick={clickToggle} defaultChecked={check} /> 
+        <input className="toggle" type="checkbox" onClick={clickToggle} defaultChecked={check}></input>
         <label>
           <span className="description">{e.span}</span>
           <span className="created">{e.time}</span>
@@ -29,7 +29,7 @@ export default function Task({e = 1, onDeleted, onDone, onEditing}) {
         <button className="icon icon-destroy" id={e.id} onClick={onDeleted}></button>
       </div>
     </li>
-  )
+  );
 }
 
 Task.propTypes = {
@@ -37,4 +37,4 @@ Task.propTypes = {
   onDeleted: PropTypes.func,
   onDone: PropTypes.func,
   onEditing: PropTypes.func,
-}
+};
