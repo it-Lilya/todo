@@ -146,7 +146,7 @@ export default function Body() {
   }
   setInterval(() => {
     timerss();
-  }, 10000);
+  }, 0);
   return (
     <div className="todoapp">
       <NewTaskForm addItem={addItem} />
