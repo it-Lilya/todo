@@ -58,10 +58,9 @@
     "lint-staged": "^15.2.5",
     "prettier": "^3.3.0"
   },
-  "prettier": "prettier-config-nick",
   "lint-staged": {
     "**/*.{js,jsx,ts,tsx}": [
-      "npx prettier --write",
+      "npx eslint",
       "npx eslint --fix"
     ]
   }
