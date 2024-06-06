@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { formatDistanceToNow } from 'date-fns/formatDistanceToNow';
+import React, { useEffect, useState } from 'react';
+// import { formatDistanceToNow } from 'date-fns/formatDistanceToNow';
 
 import NewTaskForm from '../NewTaskForm/NewTaskForm';
 import TaskList from '../TaskList/TaskList';
@@ -14,7 +14,7 @@ export default function Body() {
     createItem('editing', 'Editing task', 'created 1 second ago'),
     createItem('view', 'Active task', 'created 1 second ago'),
   ]);
-  const [done, setDone] = useState(1);
+  const [done, setDone] = useState(0);
   const [copyTodo, setCopyTodo] = useState(todoData);
 
   let count = 0;
@@ -127,26 +127,9 @@ export default function Body() {
     setTodoData(todoData.filter((e) => e.class !== 'completed'));
     setCopyTodo(copyTodo.filter((e) => e.class !== 'completed'));
   }
-
-  function timerss() {
-    copyTodo.forEach((t) => {
-      const arr = formatDistanceToNow(t.timeMs, { includeSeconds: true }).split(' ');
-      let newString = ['created'];
-      if (arr[arr.length - 2] === 'a') {
-        newString.push('1');
-      } else {
-        newString.push(arr[arr.length - 2]);
-      }
-      newString.push(arr[arr.length - 1]);
-      newString.push('ago');
-      if (document.getElementById(`${t.id}`)) {
-        document.getElementById(`${t.id}`).querySelector('.created').textContent = newString.join(' ');
-      }
-    });
-  }
-  setInterval(() => {
-    timerss();
-  }, 0);
+  useEffect(() => {
+    setDone(todoData.filter((d) => d.class === 'view').length);
+  }, []);
   return (
     <div className="todoapp">
       <NewTaskForm addItem={addItem} />

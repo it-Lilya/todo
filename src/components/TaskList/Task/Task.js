@@ -1,7 +1,31 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { formatDistanceToNow } from 'date-fns';
 
-export default function Task({ e = 1, onDeleted, onDone, onEditing }) {
+export default function Task({ e = {}, onDeleted, onDone, onEditing }) {
+  function timerDistance() {
+    const arr = formatDistanceToNow(e.timeMs, { includeSeconds: true }).split(' ');
+    let newString = ['created'];
+    if (arr[arr.length - 2] === 'a') {
+      if (arr[0] === 'less' || arr[0] === 'half') {
+        newString.push(arr[0]);
+      }
+      newString.push('1');
+    } else {
+      if (arr[0] === 'less' || arr[0] === 'half') {
+        newString.push(arr[0]);
+      }
+      newString.push(arr[arr.length - 2]);
+    }
+    newString.push(arr[arr.length - 1]);
+    newString.push('ago');
+    if (document.getElementById(`${e.id}`)) {
+      document.getElementById(`${e.id}`).querySelector('.created').textContent = newString.join(' ');
+    }
+  }
+  setInterval(() => {
+    timerDistance();
+  });
   let check = 'false';
   function clickToggle(e) {
     const parentli = e.target.closest('li');
