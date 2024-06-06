@@ -9,11 +9,7 @@ let id = 0;
 let newArr = [];
 
 export default function Body() {
-  const [todoData, setTodoData] = useState([
-    createItem('completed', 'Completed task', 'created 1 second ago'),
-    createItem('editing', 'Editing task', 'created 1 second ago'),
-    createItem('view', 'Active task', 'created 1 second ago'),
-  ]);
+  const [todoData, setTodoData] = useState([]);
   const [done, setDone] = useState(0);
   const [copyTodo, setCopyTodo] = useState(todoData);
 
