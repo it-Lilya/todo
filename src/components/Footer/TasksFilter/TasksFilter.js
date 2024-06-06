@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import './TasksFilter.css';
+
 export default function TasksFilter({ filters }) {
   return (
     <ul className="filters" onClick={(e) => filters(e.target)}>

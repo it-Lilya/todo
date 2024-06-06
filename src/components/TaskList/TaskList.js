@@ -2,8 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import Task from './Task/Task';
+import './TaskList.css';
 
-export default function Tasklist({ todoData = [], onDeleted, onDone, onEditing }) {
+export default function TaskList({ todoData = [], onDeleted, onDone, onEditing }) {
   return (
     <ul className="todo-list">
       {todoData.map((e) => {
@@ -12,7 +13,7 @@ export default function Tasklist({ todoData = [], onDeleted, onDone, onEditing }
     </ul>
   );
 }
-Tasklist.propTypes = {
+TaskList.propTypes = {
   todoData: PropTypes.array,
   onDeleted: PropTypes.func,
   onDone: PropTypes.func,

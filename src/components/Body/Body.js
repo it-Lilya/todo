@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-// import { formatDistanceToNow } from 'date-fns/formatDistanceToNow';
+import './Body.css';
 
 import NewTaskForm from '../NewTaskForm/NewTaskForm';
 import TaskList from '../TaskList/TaskList';

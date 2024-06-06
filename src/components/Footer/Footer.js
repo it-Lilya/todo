@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import TasksFilter from './TasksFilter/TasksFilter';
+import './Footer.css';
 
 export default function Footer({ done = 0, filters, clearCompleted }) {
   return (
