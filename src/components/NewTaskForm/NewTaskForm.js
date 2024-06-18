@@ -5,8 +5,14 @@ import './NewTaskForm.css';
 export default function NewTaskForm({ addItem }) {
   function onChangeNewTodo(e) {
     e.preventDefault();
-    addItem('view', e.target.querySelector('input').value);
-    setTimeout(() => (document.querySelector('.new-todo').value = ''));
+    if (document.querySelector('.new-todo').value.trim().length !== 0) {
+      addItem('view', e.target.querySelector('input').value);
+      setTimeout(() => (document.querySelector('.new-todo').value = ''));
+      document.querySelectorAll('.filters li button').forEach((e) => {
+        e.classList.remove('selected');
+      });
+      document.querySelector('.filters li').firstChild.classList.add('selected');
+    }
   }
 
   return (

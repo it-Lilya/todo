@@ -12,7 +12,6 @@ export default function Body() {
   const [todoData, setTodoData] = useState([]);
   const [done, setDone] = useState(0);
   const [copyTodo, setCopyTodo] = useState(todoData);
-
   let count = 0;
 
   function createItem(classItem, text) {
@@ -20,9 +19,10 @@ export default function Body() {
     return {
       class: classItem,
       span: text,
-      time: 'created 1 second ago',
       id: id,
-      timeMs: Date.now(new Date()),
+      flag: true,
+      difference: 1,
+      label: false,
     };
   }
 
@@ -41,6 +41,7 @@ export default function Body() {
     if (e.class === 'completed') {
       count = done + 1;
       e.class = 'view';
+      e.label = false;
     } else if (e.class === 'view') {
       count = done - 1;
       e.class = 'completed';
@@ -74,7 +75,7 @@ export default function Body() {
       newInpText.addEventListener('keydown', (event) => {
         if (event.key === 'Enter' && event.target.value.trim()) {
           event.preventDefault();
-          btn.closest('li').querySelector('.description').textContent = event.target.value.trim();
+          btn.closest('li').querySelector('.title').textContent = event.target.value.trim();
           e.class = 'view';
           e.span = event.target.value.trim();
           newArray = [...todoData.slice(0, indx), e, ...todoData.slice(indx + 1)];

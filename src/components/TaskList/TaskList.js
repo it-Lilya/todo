@@ -8,7 +8,16 @@ export default function TaskList({ todoData = [], onDeleted, onDone, onEditing }
   return (
     <ul className="todo-list">
       {todoData.map((e) => {
-        return <Task key={e.id} e={e} onDeleted={onDeleted} onDone={() => onDone(e)} onEditing={onEditing} />;
+        return (
+          <Task
+            key={e.id}
+            e={e}
+            onDeleted={onDeleted}
+            onDone={() => onDone(e)}
+            onEditing={onEditing}
+            todoData={todoData}
+          />
+        );
       })}
     </ul>
   );
