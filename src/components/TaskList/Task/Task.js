@@ -9,6 +9,7 @@ export default function Task({ e = {}, onDeleted, onDone, onEditing }) {
   const [newTimer, setNewTimer] = useState([]);
   const [timeDifference, setTimeDifference] = useState(e.distance);
   useEffect(() => {
+    e.distance = 0;
     let res = timeDifference;
     if (res !== 0) {
       res = Math.floor((Date.now(new Date()) - res) / 1000);
