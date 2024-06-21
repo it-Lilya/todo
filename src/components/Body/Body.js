@@ -19,10 +19,13 @@ export default function Body() {
     return {
       class: classItem,
       span: text,
+      time: 'created 1 second ago',
       id: id,
-      flag: true,
-      difference: 1,
+      timeMs: Date.now(new Date(), 'mm:ss'),
+      timer: '00:00',
+      flag: false,
       label: false,
+      distance: 0,
     };
   }
 
