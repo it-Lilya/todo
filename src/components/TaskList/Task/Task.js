@@ -6,38 +6,50 @@ export default function Task({ e = {}, onDeleted, onDone, onEditing }) {
   const [intervalId, setIntervalId] = useState();
   const [flag, setFlag] = useState(e.flag);
   const [distanceTimer, setDistanceTimer] = useState(e.timer);
-  const [newTimer, setNewTimer] = useState([]);
   const [timeDifference, setTimeDifference] = useState(e.distance);
   useEffect(() => {
     e.distance = 0;
     let res = timeDifference;
     if (res !== 0) {
       res = Math.floor((Date.now(new Date()) - res) / 1000);
-      setTimeDifference(Math.floor((Date.now(new Date()) - timeDifference) / 1000));
-    }
-    let timerArr = e.timer.split(':');
-    timerArr[timerArr.length - 1] = String((res / 10 + +timerArr[timerArr.length - 1] / 10) * 10);
-    let minutes = +timerArr[timerArr.length - 2].split(' ');
-    if (timerArr[timerArr.length - 1] < 10 && timerArr[timerArr.length - 1].length === 1) {
-      timerArr[timerArr.length - 1] = `0${Math.floor(timerArr[timerArr.length - 1])}`;
-    }
-    if (timerArr[timerArr.length - 1] > 59) {
-      timerArr[timerArr.length - 2] = +timerArr[timerArr.length - 2] + 1;
-      timerArr[timerArr.length - 1] = '00';
-      if (minutes === 59) {
-        timerArr[timerArr.length - 2] = '00';
-        setNewTimer(newTimer.push(timerArr[timerArr.length - 2]));
-        setNewTimer(newTimer.push(':'));
-        setNewTimer(newTimer.push(timerArr[timerArr.length - 1]));
-        e.timer = `00:${timerArr.join(':')}`;
+      let timerArr = e.timer.split(':');
+      timerArr[timerArr.length - 1] = String((res / 10 + +timerArr[timerArr.length - 1] / 10) * 10);
+      let seconds = Math.abs(Math.floor(+timerArr[timerArr.length - 1].split(' ') - 60));
+      let difMinutes = Math.floor(Math.floor(+timerArr[timerArr.length - 1].split(' ')) / 60);
+      let minutes = Math.floor(+timerArr[timerArr.length - 2].split(' ')) + difMinutes;
+      timerArr[timerArr.length - 2] = minutes;
+      if (seconds >= 0 && seconds < 10) {
+        timerArr[timerArr.length - 1] = `0${seconds}`;
+      } else {
+        timerArr[timerArr.length - 1] = seconds + 1;
+      }
+      if (minutes >= 0 && minutes < 10) {
+        timerArr[timerArr.length - 2] = `0${minutes}`;
+      } else {
+        timerArr[timerArr.length - 2] = minutes;
+      }
+      if (seconds > 59) {
+        timerArr[timerArr.length - 2] = +minutes + 1;
+        timerArr[timerArr.length - 1] = '00';
+        if (minutes >= 0 && minutes < 10) {
+          timerArr[timerArr.length - 2] = `0${minutes}`;
+        } else {
+          timerArr[timerArr.length - 2] = minutes;
+        }
+        if (minutes === 59) {
+          timerArr[timerArr.length - 1] = '00';
+          timerArr[timerArr.length - 2] = '00';
+          e.timer = `01:${timerArr.join(':')}`;
+          setDistanceTimer(e.timer);
+        } else {
+          e.timer = timerArr.join(':');
+          setDistanceTimer(e.timer);
+        }
+      } else {
+        e.timer = timerArr.join(':');
         setDistanceTimer(e.timer);
       }
-    } else {
-      setNewTimer(newTimer.push(timerArr[timerArr.length - 2]));
-      setNewTimer(newTimer.push(':'));
-      setNewTimer(newTimer.push(timerArr[timerArr.length - 1]));
-      e.timer = timerArr.join(':');
-      setDistanceTimer(e.timer);
+      console.log(e.timer);
     }
   }, []);
   function timerDistance() {
@@ -96,8 +108,10 @@ export default function Task({ e = {}, onDeleted, onDone, onEditing }) {
     }
   }, [flag]);
   const playTimer = () => {
-    e.flag = true;
-    setFlag(e.flag);
+    if (e.class !== 'completed') {
+      e.flag = true;
+      setFlag(e.flag);
+    }
   };
   const stopTimer = () => {
     e.flag = false;
@@ -107,21 +121,25 @@ export default function Task({ e = {}, onDeleted, onDone, onEditing }) {
     document.querySelector('.filters').addEventListener('click', (el) => {
       let currentCategory = el.target.className.split(' ').join('');
       if (currentCategory === 'completed') {
-        if (e.flag === true) {
-          e.label = true;
-          e.distance = Date.now(new Date());
+        if (e.class !== 'completed') {
+          setTimeDifference(0);
+          if (e.flag === true) {
+            e.label = true;
+            e.distance = Date.now(new Date());
+            setFlag(false);
+          }
+        } else {
+          e.label === false;
+          setFlag(false);
           setFlag(false);
         }
       } else {
-        if (e.flag === true) {
+        if (e.class !== 'completed' && e.flag === true) {
           e.label === false;
           setFlag(true);
           setFlag(true);
         }
       }
-    });
-    document.querySelector('.clear-completed').addEventListener('click', () => {
-      console.log('clear');
     });
   }, []);
   function tick() {
@@ -137,9 +155,16 @@ export default function Task({ e = {}, onDeleted, onDone, onEditing }) {
     if (seconds > 59) {
       timerArr[timerArr.length - 2] = +timerArr[timerArr.length - 2] + 1;
       timerArr[timerArr.length - 1] = '00';
+      if (minutes >= 0 && minutes < 10) {
+        timerArr[timerArr.length - 2] = `0${Math.floor(+timerArr[timerArr.length - 2])}`;
+      }
       if (minutes === 59) {
+        timerArr[timerArr.length - 1] = '00';
         timerArr[timerArr.length - 2] = '00';
-        e.timer = `00:${timerArr.join(':')}`;
+        e.timer = `01:${timerArr.join(':')}`;
+        setDistanceTimer(e.timer);
+      } else {
+        e.timer = timerArr.join(':');
         setDistanceTimer(e.timer);
       }
     } else {
