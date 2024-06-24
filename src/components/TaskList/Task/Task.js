@@ -14,7 +14,7 @@ export default function Task({ e = {}, onDeleted, onDone, onEditing }) {
       res = Math.floor((Date.now(new Date()) - res) / 1000);
       let timerArr = e.timer.split(':');
       timerArr[timerArr.length - 1] = String((res / 10 + +timerArr[timerArr.length - 1] / 10) * 10);
-      let seconds = Math.abs(Math.floor(+timerArr[timerArr.length - 1].split(' ') - 60));
+      let seconds = Math.floor(+timerArr[timerArr.length - 1].split(' '));
       let difMinutes = Math.floor(Math.floor(+timerArr[timerArr.length - 1].split(' ')) / 60);
       let minutes = Math.floor(+timerArr[timerArr.length - 2].split(' ')) + difMinutes;
       timerArr[timerArr.length - 2] = minutes;
@@ -49,7 +49,6 @@ export default function Task({ e = {}, onDeleted, onDone, onEditing }) {
         e.timer = timerArr.join(':');
         setDistanceTimer(e.timer);
       }
-      console.log(e.timer);
     }
   }, []);
   function timerDistance() {
