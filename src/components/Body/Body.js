@@ -22,7 +22,7 @@ export default function Body() {
       time: 'created 1 second ago',
       id: id,
       timeMs: Date.now(new Date(), 'mm:ss'),
-      timer: '00:00',
+      timer: '00:58',
       flag: false,
       label: false,
       distance: 0,
